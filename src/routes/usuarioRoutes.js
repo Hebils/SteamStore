@@ -7,16 +7,24 @@ const {
 } = require('../controllers/usuarioController');
 
 const verificarToken = require('../middleware/authMiddleware');
+const verificarRol = require('../middleware/rolMiddleware');
 
 router.post('/registro', registrarUsuario);
 
 router.post('/login', iniciarSesion);
 
-//RUTA PROTEGIDA
 router.get('/perfil', verificarToken, (req, res) => {
     res.json({
         status: 'ok',
-        message: 'Acceso Autorizado',
+        message: 'Acceso autorizado',
+        usuario: req.usuario
+    });
+});
+
+router.get('/admin', verificarToken, verificarRol('admin'), (req, res) => {
+    res.json({
+        status: 'ok',
+        message: 'Acceso autorizado para administrador',
         usuario: req.usuario
     });
 });

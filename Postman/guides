@@ -1,0 +1,75 @@
+-- POSTMAN --
+-- Usuarios --
+-- REGISTRAR USUARIO, petición tipo POST:http://localhost:3000/api/usuarios/registro, raw:JSON--
+-- {
+    "nombre": "Angel Palomares",
+    "email": "angel.palomares@steamstore.com",
+    "password": "123456"
+}
+
+--Debe devolver algo parecido a lo siguiente:
+{
+    "status": "ok",
+    "message": "Usuario registrado correctamente",
+    "usuario": {
+        "id": 8,
+        "nombre": "Angel Palomares",
+        "email": "angel.palomares@steamstore.com"
+    }
+}
+
+--LOGIN USUARIO, petición tipo POST:http://localhost:3000/api/usuarios/login, raw:JSON
+--{
+    "email": "juan@steamstore.com",
+    "password": "123456"
+}
+
+--Debe devolver algo parecido a lo siguiente:
+{
+    "status": "ok",
+    "message": "Inicio de sesión exitoso",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuQHN0ZWFtc3RvcmUuY29tIiwicm9sIjoidXN1YXJpbyIsImlhdCI6MTc5MDcyMzU2MSwiZXhwIjoxNzkwNzMwNzYxfQ.rKF3RMNRazsUJjmrymH7Fuq1LarIYcBdRVA74xxRNq8",
+    "usuario": {
+        "id": 1,
+        "nombre": "Juan Suarez",
+        "email": "juan@steamstore.com",
+        "rol": "usuario"
+    }
+}
+--verificar esta informacion en phpMyadmin
+
+--Validar Token, petición tipo GET:http://localhost:3000/api/usuarios/perfil, authorization: bearer token, token: pegar token que generó el usuario sin las comillas--
+-Debe devolver algo parecido a lo siguiente:
+{
+    "status": "ok",
+    "message": "Acceso autorizado",
+    "usuario": {
+        "id": 1,
+        "email": "juan@steamstore.com",
+        "rol": "usuario",
+        "iat": 1790724790,
+        "exp": 1790731990
+    }
+}
+
+--Validar si el usuario es Admin, petición tipo GET:http://localhost:3000/api/usuarios/admin, authorization: bearer token, token: pegar token que generó el usuario sin las comillas--
+--Si el usuario es un administrador debe aparecer:
+{
+    "status": "ok",
+    "message": "Acceso autorizado para administrador",
+    "usuario": {
+        "id": 2,
+        "email": "angel.palomares@steamstore.com",
+        "rol": "admin",
+        "iat": 1790724904,
+        "exp": 1790732104
+    }
+}
+
+--Si no es administrador debe aparecer error o algo como:
+{
+    "status": "error",
+    "message": "No tienes permisos para acceder a este recurso"
+}
+
+ 
