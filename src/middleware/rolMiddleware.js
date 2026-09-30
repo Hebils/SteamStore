@@ -20,3 +20,5 @@ const verificarRol = (...rolesPermitidos) => {
 };
 
 module.exports = verificarRol;
+
+//..

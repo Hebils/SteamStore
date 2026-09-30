@@ -46,3 +46,5 @@ const verificarToken = (req, res, next) => {
 };
 
 module.exports = verificarToken;
+
+//..
