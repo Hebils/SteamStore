@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gamix_ Login</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;600&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="js/loginusuario.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Capas de fondo -->
+    <div class="bg-layer"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-lines"></div>
+    <div class="particles" id="particles"></div>
+    <div class="bg-watermark">GAMIX</div>
+
+
+    <div class="card">
+
+        <!-- Lado izquierdo: imagen decorativa -->
+        <div class="card-image">
+
+
+        </div>
+
+        <!-- Lado derecho: formulario -->
+        <div class="card-form">
+
+            <!-- Logo -->
+            <div class="brand">
+                <div class="logo-circle">
+                    <img src="img/logo.png" alt="Logo" width="80" height="80">
+                </div>
+            </div>
+
+            <p class="form-title">Iniciar Sesión</p>
+            <div class="form-divider"></div>
+
+            <!-- Campo: Usuario -->
+            <div class="field">
+                <label for="usuario">Usuario</label>
+                <input type="text" id="usuario" placeholder="Tu nombre de usuario" />
+            </div>
+
+            <!-- Campo: ContraseÃ±a -->
+            <div class="field">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" />
+            </div>
+
+            <!-- BotÃ³n -->
+            <button class="btn-primary" onclick="iniciarSesion()">LOG IN</button>
+
+            <!-- Mensaje que responde el backend -->
+            <p id="mensaje"></p>
+
+            <!-- Link a registro -->
+            <div class="register-link">
+                ¿Aún no tienes cuenta?
+                <a href="Registro.html">Regístrate aquí</a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
