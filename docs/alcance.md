@@ -2,7 +2,7 @@
 
 ## Alcance
 
-SteamStore será una aplicación web inspirada en las plataformas digitales de distribución de videojuegos. Su propósito será permitir que los usuarios consulten un catálogo de videojuegos y gestionen diferentes acciones relacionadas con la adquisición y organización de sus juegos.
+Gamix será una aplicación web inspirada en las plataformas digitales de distribución de videojuegos. Su propósito será permitir que los usuarios consulten un catálogo de videojuegos y gestionen diferentes acciones relacionadas con la adquisición y organización de sus juegos.
 
 El sistema contará con las siguientes funcionalidades principales:
 
@@ -27,9 +27,9 @@ El sistema contará con las siguientes funcionalidades principales:
 
 Una historia de usuario es una descripción corta y sencilla de una función de software contada desde la perspectiva de la persona que desea esa capacidad, generalmente el usuario final o cliente.
 
-Las principales historias de usuario de SteamStore son:
+Las principales historias de usuario de Gamix son:
 
-- **HU01:** Como usuario, quiero registrarme en SteamStore para poder crear una cuenta y acceder a las funcionalidades privadas de la plataforma.
+- **HU01:** Como usuario, quiero registrarme en Gamix para poder crear una cuenta y acceder a las funcionalidades privadas de la plataforma.
 - **HU02:** Como usuario registrado, quiero iniciar sesión para poder acceder de forma segura a las funcionalidades privadas de mi cuenta.
 - **HU03:** Como usuario autenticado, quiero cerrar sesión para finalizar de forma segura mi sesión en la plataforma.
 - **HU04:** Como usuario, quiero consultar el catálogo de videojuegos para conocer los juegos disponibles en la plataforma.
