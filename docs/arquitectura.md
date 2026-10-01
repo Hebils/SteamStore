@@ -2,13 +2,13 @@
 
 ## Arquitectura general
 
-SteamStore utilizará una arquitectura desacoplada entre el frontend y el backend. El frontend será responsable de la interfaz y la interacción con el usuario, mientras que el backend gestionará la lógica de negocio, la API REST, la autenticación y la comunicación con los sistemas de persistencia.
+Gamix utilizará una arquitectura desacoplada entre el frontend y el backend. El frontend será responsable de la interfaz y la interacción con el usuario, mientras que el backend gestionará la lógica de negocio, la API REST, la autenticación y la comunicación con los sistemas de persistencia.
 
 La comunicación entre el frontend y el backend se realizará mediante solicitudes HTTP utilizando datos en formato JSON.
 
 ### Estructura general
 
-![Arquitectura de SteamStore](Arquitectura.png)
+![Arquitectura de Gamix](Arquitectura.png)
 
 ## Frontend
 
@@ -81,7 +81,7 @@ El backend responderá utilizando códigos de estado HTTP apropiados para indica
 
 ## Persistencia de datos
 
-SteamStore utilizará dos mecanismos de persistencia:
+Gamix utilizará dos mecanismos de persistencia:
 
 1. **Base de datos:** almacenará la información estructurada y los metadatos de los archivos.
 2. **Almacenamiento de archivos:** almacenará los archivos físicos utilizados por la aplicación.
