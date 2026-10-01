@@ -1,0 +1,12 @@
+.auth-content form {
+    margin: 0;
+}
+
+.form-message.is-error {
+    color: #ff8585;
+}
+
+.btn-primary:disabled {
+    cursor: wait;
+    opacity: .7;
+}

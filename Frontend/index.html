@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamix | Tienda</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <main class="store">
+        <header class="store-header">
+            <a class="brand" href="index.html"><span class="prompt">root@gamix:~$</span> GAMIX<span
+                    class="cursor">_</span></a>
+            <nav class="store-nav" aria-label="Navegación principal">
+                <a class="active" href="#destacados">./tienda</a>
+                <a href="#catalogo">./catalogo</a>
+                <a href="Login.html">./login</a>
+                <a class="register" href="Registro.html">./crear-cuenta</a>
+            </nav>
+        </header>
+
+        <section class="hero" id="destacados">
+            <div class="hero-copy">
+                <p class="terminal-line"><span class="prompt">root@gamix:~$</span> ./explore --featured</p>
+                <p class="eyebrow">// TIENDA DE VIDEOJUEGOS</p>
+                <h1>ENCUENTRA TU<br>PRÓXIMO JUEGO<span class="cursor">_</span></h1>
+                <p>Explora el catálogo, descubre nuevas aventuras y agrega tus juegos favoritos a tu colección.</p>
+                <a class="button" href="#catalogo"><span class="prompt">$</span> ./explorar-juegos</a>
+            </div>
+            <div class="hero-art terminal-window" aria-label="Juego destacado: aventura espacial">
+                <div class="window-bar"><span>game_preview.exe</span><span>[_] [□] [x]</span></div>
+                <span class="art-label">output: juego_destacado</span>
+                <span class="planet"></span>
+                <span class="art-title">NOVA<br>FRONTIER<span>_</span></span>
+                <span class="art-status">status: disponible // $29.99</span>
+            </div>
+        </section>
+
+        <section class="catalog" id="catalogo">
+            <div class="section-heading">
+                <div>
+                    <p class="terminal-line"><span class="prompt">root@gamix:~$</span> ls ./catalogo --popular</p>
+                    <h2>JUEGOS POPULARES<span class="cursor">_</span></h2>
+                </div>
+                <a href="#catalogo">./ver-todo →</a>
+            </div>
+
+            <div class="game-grid">
+                <article class="game-card">
+                    <div class="game-art art-one"><span>01 // RPG</span><b>NEON<br>HORIZON</b></div>
+                    <div class="game-info">
+                        <h3>Neon Horizon</h3>
+                        <p>Acción · Aventura</p><strong>$19.99</strong>
+                    </div>
+                </article>
+                <article class="game-card">
+                    <div class="game-art art-two"><span>02 // STRATEGY</span><b>DEEP<br>ORBIT</b></div>
+                    <div class="game-info">
+                        <h3>Deep Orbit</h3>
+                        <p>Estrategia · Ciencia ficción</p><strong>$14.99</strong>
+                    </div>
+                </article>
+                <article class="game-card">
+                    <div class="game-art art-three"><span>03 // SURVIVAL</span><b>WILD<br>SIGNAL</b></div>
+                    <div class="game-info">
+                        <h3>Wild Signal</h3>
+                        <p>Supervivencia · Exploración</p><strong>$9.99</strong>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <footer class="store-footer"><span class="prompt">root@gamix:~$</span> echo "gamix store // sistema
+            conectado"<span class="cursor">_</span></footer>
+    </main>
+</body>
+
+</html>
