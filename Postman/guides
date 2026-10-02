@@ -71,5 +71,10 @@
     "status": "error",
     "message": "No tienes permisos para acceder a este recurso"
 }
+..Guias 2.0
+
+--Conexion a la base de datos con /health, petición tipo GET: http://localhost:3000/api/health
+--Debe enviar un archivo en formato JSON como:
+{"status":"ok","message":"Servidor y base de datos funcionando correctamente"}
 
  

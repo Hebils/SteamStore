@@ -1,5 +1,5 @@
 -- ============================================================
--- SCRIPTS SQL - Backend Tienda de Videojuegos STEAMSTORE
+-- SCRIPTS SQL - Backend Tienda de Videojuegos GAMIX
 -- ============================================================
 -- Instrucciones:
 --   Ejecuta cada bloque en orden desde la consola SQL de XAMPP
@@ -168,3 +168,44 @@ CREATE TABLE biblioteca (
 -- ============================================================
 -- FIN DE LOS SCRIPTS
 -- ============================================================
+
+--2.0 ACORDE A LA ARQUITECTURA DE LOS MODELOS DEL COMPAÑERO SEBASTIAN. EJECUTAR EL PRIMER BLOQUE DE DE LA SECCION SCRIPTS PARA CREAR LAS TABLAS y la basedb.
+--Esta segunda sección pertenece a la modificacion de las tablas y variables que se definen y que se
+--alinean con el diagrama de la web desarrollado por el compañero Sebastian.
+USE steamstore_db;
+
+-- 1. Eliminar tablas que el diseño nuevo no usa
+DROP TABLE IF EXISTS carrito_detalle;
+DROP TABLE IF EXISTS carritos;
+DROP TABLE IF EXISTS biblioteca;
+DROP TABLE IF EXISTS juego_categoria;
+DROP TABLE IF EXISTS categorias;
+
+-- 2. Ajustar juegos al VIDEOJUEGO del diagrama
+ALTER TABLE juegos
+    DROP COLUMN stock,
+    DROP COLUMN imagen,
+    ADD COLUMN genero VARCHAR(50) NOT NULL AFTER descripcion;
+
+-- 3. DETALLE_COMPRA no tiene cantidad (juegos digitales)
+ALTER TABLE compra_detalle DROP COLUMN cantidad;
+
+-- 4. RESEÑA
+CREATE TABLE resenas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    juego_id INT NOT NULL,
+    calificacion INT NOT NULL,
+    comentario TEXT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+
+
+-- 5. ARCHIVO (foto de perfil O imagen de juego)
+CREATE TABLE archivos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NULL,
+    juego_id INT NULL,
+    nombre_archivo VARCHAR(255) NOT NULL,
+    tamano INT NOT NULL,
+    ruta VARCHAR(500) NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP);

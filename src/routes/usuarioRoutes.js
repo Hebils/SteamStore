@@ -30,3 +30,5 @@ router.get('/admin', verificarToken, verificarRol('admin'), (req, res) => {
 });
 
 module.exports = router;
+
+//..
