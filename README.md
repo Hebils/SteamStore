@@ -40,4 +40,7 @@ El `.env` no existe actualmente en el proyecto por lo que hay que crearlo direct
 
 8. Para verificar la conexion al servidor de la base de datos ingresa a: http://localhost:3000/api/health y verifica que la conexión a la base de datos esté funcionando correctamente.
 
-
+9. IMPORTANTE: Antes de desplegar todo instalar las dependencias en el directorio de la siguiente forma y en orden
+9.1 npm install express mysql2 dotenv
+9.2 npm install bcrypt
+9.3 npm install jsonwebtoken
