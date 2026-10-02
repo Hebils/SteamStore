@@ -38,4 +38,6 @@ El `.env` no existe actualmente en el proyecto por lo que hay que crearlo direct
 
 7. Si el puerto 5501 esta ocupado, configura `FRONTEND_PORT`. Para cambiar el puerto del backend, configura `API_PORT` con el mismo valor que `PORT`.
 
+8. Para verificar la conexion al servidor de la base de datos ingresa a: http://localhost:3000/api/health y verifica que la conexión a la base de datos esté funcionando correctamente.
+
 
