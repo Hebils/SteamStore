@@ -1,3 +1,4 @@
+/*
 const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -73,3 +74,4 @@ server.listen(port, '127.0.0.1', () => {
     console.log(`Frontend listo en http://127.0.0.1:${port}`);
     console.log(`API reenviada a http://${backendHost}:${backendPort}`);
 });
+*/
