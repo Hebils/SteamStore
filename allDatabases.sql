@@ -197,8 +197,16 @@ CREATE TABLE resenas (
     juego_id INT NOT NULL,
     calificacion INT NOT NULL,
     comentario TEXT NULL,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
+    FOREIGN KEY (usuario_id)
+        REFERENCES usuarios(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (juego_id)
+        REFERENCES juegos(id)
+        ON DELETE CASCADE
+);
 
 -- 5. ARCHIVO (foto de perfil O imagen de juego)
 CREATE TABLE archivos (
@@ -206,6 +214,21 @@ CREATE TABLE archivos (
     usuario_id INT NULL,
     juego_id INT NULL,
     nombre_archivo VARCHAR(255) NOT NULL,
+    tipo_archivo ENUM(
+        'portada',
+        'captura',
+        'perfil'
+    ) NOT NULL,
+    mime_type VARCHAR(100),
     tamano INT NOT NULL,
     ruta VARCHAR(500) NOT NULL,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (usuario_id)
+        REFERENCES usuarios(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (juego_id)
+        REFERENCES juegos(id)
+        ON DELETE CASCADE
+);
