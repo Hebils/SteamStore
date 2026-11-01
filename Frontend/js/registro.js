@@ -9,7 +9,7 @@ document.getElementById('registro-form').addEventListener('submit', async (event
     window.gamixApi.showMessage(message, 'Creando cuenta...');
 
     try {
-        const result = await window.gamixApi.post('registro', {
+        const result = await window.gamixApi.post('usuarios/registro', {
             nombre: form.elements.nombre.value.trim(),
             email: form.elements.email.value.trim(),
             password: form.elements.password.value,
@@ -17,7 +17,7 @@ document.getElementById('registro-form').addEventListener('submit', async (event
 
         window.gamixApi.showMessage(message, `${result.message}. Ya puedes iniciar sesión.`);
         form.reset();
-        setTimeout(function () { window.location.href = 'Login.html' }, 1000);
+        setTimeout(() => { window.location.href = '/login?registered=1'; }, 900);
     } catch (error) {
         window.gamixApi.showMessage(message, error.message, true);
     } finally {

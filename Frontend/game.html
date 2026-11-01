@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamix | Juego</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/app.css">
+    <script src="/js/api.js" defer></script>
+    <script src="/js/auth.js" defer></script>
+    <script src="/js/game-page.js" defer></script>
+</head>
+<body>
+    <main class="store app-shell">
+        <header class="store-header">
+            <a class="brand" href="/store"><span class="prompt">root@gamix:~$</span> GAMIX<span class="cursor">_</span></a>
+            <nav class="store-nav" aria-label="Navegaci&oacute;n principal">
+                <a href="/store">./store</a>
+                <a href="/library" data-auth-user hidden>./library</a>
+                <a href="/profile" data-auth-user hidden>./profile</a>
+                <div class="nav-group" data-auth-guest><a href="/login">./login</a><a class="register" href="/register">./register</a></div>
+                <div class="nav-group" data-auth-user hidden>
+                    <a href="/purchases">./purchases</a>
+                    <span class="nav-user">~/<span data-user-name>usuario</span></span>
+                    <button class="nav-logout" type="button" data-logout>./logout</button>
+                </div>
+            </nav>
+        </header>
+        <section class="page-intro">
+            <p class="terminal-line"><span class="prompt">root@gamix:~$</span> GET /api/games/<span id="game-id">:id</span></p>
+            <h1 id="page-title">Ficha de videojuego</h1>
+            <p>Informaci&oacute;n del cat&aacute;logo de Gamix.</p>
+        </section>
+        <p class="route-status" id="game-status" role="status" aria-live="polite">Cargando juego...</p>
+        <button class="terminal-button" id="retry-game" type="button" hidden>$ reintentar</button>
+        <section class="page-panel" id="game-content" hidden>
+            <div class="game-detail">
+                <div class="game-cover"><h2 id="game-title">Videojuego</h2></div>
+                <div>
+                    <h2 class="panel-heading">// DETALLES</h2>
+                    <p id="game-description" class="game-description"></p>
+                    <dl class="game-facts">
+                        <div><dt>G&eacute;nero</dt><dd id="game-genre">—</dd></div>
+                        <div><dt>Desarrollador</dt><dd id="game-developer">—</dd></div>
+                        <div><dt>Precio</dt><dd id="game-price">—</dd></div>
+                    </dl>
+                    <div class="game-actions"><a class="button" href="/store">./volver-al-catalogo</a></div>
+                </div>
+            </div>
+        </section>
+        <footer class="store-footer"><span class="prompt">root@gamix:~$</span> echo "public route // game detail"<span class="cursor">_</span></footer>
+    </main>
+</body>
+</html>

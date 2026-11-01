@@ -1,3 +1,9 @@
+const registerNotice = document.getElementById('registro-notice');
+if (new URLSearchParams(window.location.search).has('registered')) {
+    registerNotice.textContent = 'Cuenta creada. Ya puedes iniciar sesión.';
+    registerNotice.hidden = false;
+}
+
 document.getElementById('login-form').addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -8,7 +14,7 @@ document.getElementById('login-form').addEventListener('submit', async (event) =
     window.gamixApi.showMessage(message, 'Conectando con el servidor...');
 
     try {
-        const result = await window.gamixApi.post('login', {
+        const result = await window.gamixApi.post('usuarios/login', {
             email: form.elements.email.value.trim(),
             password: form.elements.password.value
         });
@@ -16,7 +22,7 @@ document.getElementById('login-form').addEventListener('submit', async (event) =
         sessionStorage.setItem('gamixToken', result.token);
         sessionStorage.setItem('gamixUser', JSON.stringify(result.usuario));
         window.gamixApi.showMessage(message, `Acceso correcto. Bienvenido, ${result.usuario.nombre}.`);
-        setTimeout(function () { window.location.href = 'index.html' }, 1000);
+        setTimeout(() => { window.location.href = window.gamixAuth.getReturnPath(); }, 700);
     } catch (error) {
         window.gamixApi.showMessage(message, error.message, true);
     } finally {

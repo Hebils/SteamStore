@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamix | Compras</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/app.css">
+    <script src="/js/api.js" defer></script>
+    <script src="/js/auth.js" defer></script>
+    <script src="/js/private-page.js" defer></script>
+</head>
+<body>
+    <main class="store app-shell">
+        <header class="store-header">
+            <a class="brand" href="/store"><span class="prompt">root@gamix:~$</span> GAMIX<span class="cursor">_</span></a>
+            <nav class="store-nav" aria-label="Navegaci&oacute;n de cuenta">
+                <a href="/store">./store</a>
+                <div class="nav-group" data-auth-user hidden>
+                    <a href="/library">./library</a>
+                    <a href="/profile">./profile</a>
+                    <a class="active" href="/purchases">./purchases</a>
+                    <span class="nav-user">~/<span data-user-name>usuario</span></span>
+                    <button class="nav-logout" type="button" data-logout>./logout</button>
+                </div>
+                <div class="nav-group" data-auth-guest><a href="/login">./login</a><a class="register" href="/register">./register</a></div>
+            </nav>
+        </header>
+        <section class="page-intro">
+            <p class="terminal-line"><span class="prompt">root@gamix:~$</span> ls ~/purchases --history</p>
+            <h1>Historial de compras<span class="cursor">_</span></h1>
+            <p>Consulta el registro de tus compras simuladas.</p>
+        </section>
+        <p class="route-status" id="route-status" role="status" aria-live="polite">Verificando sesi&oacute;n...</p>
+        <button class="terminal-button" id="retry-session" type="button" hidden>$ revalidar-sesion</button>
+        <section class="page-panel" id="protected-content" hidden>
+            <h2 class="panel-heading">// HISTORIAL</h2>
+            <div class="empty-state">
+                <strong>El historial de compras est&aacute; preparado.</strong>
+                El backend todav&iacute;a no ofrece una ruta de compras para cargar transacciones. Cuando se implemente,
+                este espacio mostrar&aacute; el historial real de tu cuenta.
+                <a href="/store">$ volver-a-tienda</a>
+            </div>
+        </section>
+        <footer class="store-footer"><span class="prompt">root@gamix:~$</span> echo "private route // purchases"<span class="cursor">_</span></footer>
+    </main>
+</body>
+</html>

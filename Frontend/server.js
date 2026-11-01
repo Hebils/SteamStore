@@ -15,6 +15,12 @@ const contentTypes = {
     '.jpg': 'image/jpeg',
     '.svg': 'image/svg+xml'
 };
+const appRoutes = new Map([
+    ['/', 'index.html'], ['/store', 'index.html'], ['/index.html', 'index.html'],
+    ['/login', 'Login.html'], ['/login.html', 'Login.html'],
+    ['/register', 'Registro.html'], ['/registro', 'Registro.html'], ['/registro.html', 'Registro.html'],
+    ['/library', 'library.html'], ['/profile', 'profile.html'], ['/purchases', 'purchases.html']
+]);
 
 const server = http.createServer((request, response) => {
     if (request.url.startsWith('/api/')) {
@@ -45,7 +51,10 @@ const server = http.createServer((request, response) => {
         return;
     }
 
-    const relativePath = requestedPath === '/' ? 'index.html' : requestedPath.slice(1);
+    const routePath = requestedPath.toLowerCase().replace(/\/$/, '') || '/';
+    const gameRoute = /^\/games\/([a-zA-Z0-9_-]+)\/?$/.exec(requestedPath);
+    const pageFile = appRoutes.get(routePath);
+    const relativePath = pageFile || (gameRoute ? 'game.html' : requestedPath.slice(1));
     // Los HTML existentes enlazan la hoja compartida como ../css/style.css.
     const filePath = requestedPath === '/css/style.css'
         ? path.resolve(frontendPath, '..', 'css', 'style.css')
