@@ -1,23 +1,28 @@
-// =========================================
-// IMPORTACIONES
-// =========================================
 
-// Importa el framework Express, que se utiliza para crear
-// el servidor HTTP y definir las rutas de la API.
+ // =========================================
+ // IMPORTACIONES
+ // =========================================
+
+ // Importa el framework Express, que se utiliza para crear
+ // el servidor HTTP y definir las rutas de la API.
 const express = require('express');
 
-// Carga las variables de entorno definidas en el archivo .env
-// (por ejemplo PORT o las credenciales de la base de datos)
-// y las hace disponibles en process.env.
+ // Carga las variables de entorno definidas en el archivo .env
+ // (por ejemplo PORT o las credenciales de la base de datos)
+ // y las hace disponibles en process.env.
 require('dotenv').config();
 
-// Importa el pool de conexiones a la base de datos.
-// Permite ejecutar consultas reutilizando conexiones abiertas.
+ // Importa el pool de conexiones a la base de datos.
+ // Permite ejecutar consultas reutilizando conexiones abiertas.
 const pool = require('./config/db');
 
-// Importa las rutas relacionadas con los usuarios
-// (registro, login, consulta, etc.).
+ // Importa las rutas relacionadas con los usuarios
+ // (registro, login, consulta, etc.).
 const usuarioRoutes = require('./routes/usuarioRoutes');
+
+ // Importa las rutas relacionadas con las reseñas
+ // (consultar, crear, modificar y eliminar reseñas).
+const resenaRoutes = require('./routes/resenaRoutes');
 
 
 // =========================================
@@ -44,6 +49,15 @@ app.use(express.json());
 // Si usuarioRoutes define POST /login, la ruta completa será:
 // POST /api/usuarios/login
 app.use('/api/usuarios', usuarioRoutes);
+
+// Registra las rutas de reseñas bajo el prefijo /api.
+//
+// Ejemplos:
+// GET /api/juegos/:id/resenas
+// POST /api/juegos/:id/resenas
+// PUT /api/resenas/:id
+// DELETE /api/resenas/:id
+app.use('/api', resenaRoutes);
 
 
 // =========================================
