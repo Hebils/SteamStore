@@ -51,6 +51,22 @@
 .game-facts dd { margin: 0; color: #e2ffe7; }
 .game-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
 .game-actions .button { margin: 0; }
+.admin-tools { margin-top: 30px; }
+.game-form { display: grid; gap: 4px; }
+.game-form .field { margin: 12px 0; }
+.game-form textarea { width: 100%; padding: 12px; border: 1px solid #245c32; background: #050a07; color: #d4ffda; font: inherit; resize: vertical; }
+.game-form textarea:focus { outline: 1px solid var(--green); }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 18px; }
+.form-actions, .game-admin-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.form-actions { margin-top: 10px; }
+.form-actions .btn-primary { width: auto; min-width: 180px; margin: 0; }
+.game-admin-actions { padding: 0 14px 14px; }
+.game-admin-actions .terminal-button { flex: 1; }
+.terminal-button.danger { border-color: #80433d; color: #ffaaa7; }
+.terminal-button.danger:hover { background: #3b1816; }
+.form-message.is-error { color: #ffaaa7; }
+.form-message { min-height: 1.4em; color: var(--green); line-height: 1.5; }
+.game-description { color: #b8ffc3; line-height: 1.7; }
 
 @media (max-width: 700px) {
     .store-header { align-items: flex-start; }
@@ -59,4 +75,5 @@
     .profile-avatar { width: 88px; height: 88px; }
     .page-panel { padding: 18px; }
     .game-cover { min-height: 240px; }
+    .form-grid { grid-template-columns: 1fr; }
 }

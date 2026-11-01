@@ -1,26 +1,51 @@
 # Frontend Gamix
 
-## Rutas
+## Estructura
 
-| Ruta | Acceso | Pantalla |
-|---|---|---|
-| `/store` | Pública | Catálogo |
-| `/games/:id` | Pública | Detalle del juego |
-| `/login` | Pública | Inicio de sesión |
-| `/register` | Pública | Registro |
-| `/library` | Privada | Biblioteca |
-| `/profile` | Privada | Perfil |
-| `/purchases` | Privada | Historial de compras |
+```text
+Frontend/
+├── server.js
+├── auth.css
+├── app.css
+└── src/
+    ├── components/
+    │   ├── gameCard.js
+    │   └── navigation.js
+    ├── pages/
+    │   ├── store.html / store.js
+    │   ├── game.html / gameDetail.js
+    │   ├── login.html / login.js
+    │   ├── register.html / register.js
+    │   ├── library.html
+    │   ├── profile.html
+    │   ├── purchases.html
+    │   └── privatePage.js
+    └── services/
+        ├── api.js
+        ├── authService.js
+        ├── gameService.js
+        └── fileService.js
+```
 
-`Frontend/server.js` resuelve las rutas y reenvía `/api/*` al backend. Inicia primero el backend y luego ejecuta `node Frontend/server.js`; abre la dirección que muestra la terminal (por defecto `http://127.0.0.1:5501`). No abras estas vistas con Live Server porque sus rutas no ejecutan el proxy.
+## Ejecutar
 
-La sesión usa el JWT emitido por el backend, guardado junto con el usuario en `sessionStorage`. El cliente revisa su expiración, valida rutas privadas contra `GET /api/usuarios/perfil` con `Authorization: Bearer <token>`, limpia la sesión vencida/inválida y permite cerrar sesión localmente.
+Desde la raiz del proyecto, inicia primero el backend y luego el servidor del frontend:
 
-## Integración disponible
+```bash
+node Backend/src/server.js
+node Frontend/server.js
+```
 
-- `POST /api/usuarios/login` y `POST /api/usuarios/registro` conectan los formularios actuales.
-- `GET /api/usuarios/perfil` valida el token y proporciona los datos de perfil disponibles.
-- La tienda y el detalle solicitan `GET /api/games` y `GET /api/games/:id`.
-- El backend actual todavía no define endpoints de juegos, biblioteca ni compras. La interfaz muestra estados de carga, error o módulo pendiente y no inventa registros.
+Abre la URL que muestra el servidor frontend (por defecto `http://127.0.0.1:5501`). No abras las paginas con Live Server porque no aplica las rutas ni el proxy a la API.
 
-El cliente compartido `js/api.js` permite solicitudes asíncronas GET, POST, PUT y DELETE, incluye Bearer cuando se proporciona un token y conserva el código HTTP en los errores para que las pantallas lo puedan manejar.
+## API y pantallas
+
+- `services/api.js` centraliza GET, POST, PUT, DELETE y carga multipart; incluye Bearer y errores HTTP.
+- `services/authService.js` guarda el JWT en `sessionStorage`, verifica expiracion y consulta el perfil o el permiso admin.
+- `services/gameService.js` organiza listado, detalle, creacion, edicion y eliminacion de juegos.
+- `services/fileService.js` deja el envio multipart centralizado para cuando exista una ruta de archivos.
+- `components/gameCard.js` renderiza tarjetas de juego y acciones de administracion sin interpolar HTML de la API.
+
+Las rutas privadas consultan `GET /api/usuarios/perfil`. Las acciones CRUD visibles para administradores tambien consultan `GET /api/usuarios/admin` antes de enviar el JWT a los endpoints de juegos.
+
+El backend actual expone autenticacion y rese&ntilde;as, pero aun no define `GET/POST /api/games`, `GET/PUT/DELETE /api/games/:id` ni una ruta de carga de archivos. Por eso el frontend muestra carga, errores, reintento y catalogo vacio sin sustituir respuestas del servidor por datos de prueba. Para que el CRUD persista, el backend debe implementar esos endpoints y comprobar alli el rol admin.

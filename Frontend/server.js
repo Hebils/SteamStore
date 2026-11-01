@@ -16,10 +16,11 @@ const contentTypes = {
     '.svg': 'image/svg+xml'
 };
 const appRoutes = new Map([
-    ['/', 'index.html'], ['/store', 'index.html'], ['/index.html', 'index.html'],
-    ['/login', 'Login.html'], ['/login.html', 'Login.html'],
-    ['/register', 'Registro.html'], ['/registro', 'Registro.html'], ['/registro.html', 'Registro.html'],
-    ['/library', 'library.html'], ['/profile', 'profile.html'], ['/purchases', 'purchases.html']
+    ['/', 'src/pages/store.html'], ['/store', 'src/pages/store.html'], ['/index.html', 'src/pages/store.html'],
+    ['/login', 'src/pages/login.html'], ['/login.html', 'src/pages/login.html'],
+    ['/register', 'src/pages/register.html'], ['/registro', 'src/pages/register.html'],
+    ['/registro.html', 'src/pages/register.html'], ['/library', 'src/pages/library.html'],
+    ['/profile', 'src/pages/profile.html'], ['/purchases', 'src/pages/purchases.html']
 ]);
 
 const server = http.createServer((request, response) => {
@@ -54,7 +55,7 @@ const server = http.createServer((request, response) => {
     const routePath = requestedPath.toLowerCase().replace(/\/$/, '') || '/';
     const gameRoute = /^\/games\/([a-zA-Z0-9_-]+)\/?$/.exec(requestedPath);
     const pageFile = appRoutes.get(routePath);
-    const relativePath = pageFile || (gameRoute ? 'game.html' : requestedPath.slice(1));
+    const relativePath = pageFile || (gameRoute ? 'src/pages/game.html' : requestedPath.slice(1));
     // Los HTML existentes enlazan la hoja compartida como ../css/style.css.
     const filePath = requestedPath === '/css/style.css'
         ? path.resolve(frontendPath, '..', 'css', 'style.css')

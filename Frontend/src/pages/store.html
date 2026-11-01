@@ -6,9 +6,7 @@
     <title>Gamix | Tienda</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/app.css">
-    <script src="/js/api.js" defer></script>
-    <script src="/js/auth.js" defer></script>
-    <script src="/js/store.js" defer></script>
+    <script type="module" src="/src/pages/store.js"></script>
 </head>
 <body>
     <main class="store app-shell">
@@ -59,6 +57,50 @@
             <p class="catalog-status" id="catalog-status" role="status" aria-live="polite">Cargando juegos...</p>
             <div class="game-grid" id="game-list"></div>
             <button class="terminal-button" id="retry-catalog" type="button" hidden>$ reintentar</button>
+        </section>
+
+        <section class="page-panel admin-tools" id="admin-tools" hidden>
+            <p class="terminal-line"><span class="prompt">root@gamix:~$</span> ./games --admin</p>
+            <h2 class="panel-heading" id="game-form-title">Nuevo juego</h2>
+            <p class="api-note">Los cambios requieren permisos de administrador en la API.</p>
+            <form id="game-form" class="game-form">
+                <input type="hidden" name="id">
+                <div class="field">
+                    <label for="titulo">T&iacute;tulo</label>
+                    <input id="titulo" name="titulo" type="text" maxlength="150" required>
+                </div>
+                <div class="field">
+                    <label for="descripcion">Descripci&oacute;n</label>
+                    <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+                </div>
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="precio">Precio</label>
+                        <input id="precio" name="precio" type="number" min="0" step="0.01" required>
+                    </div>
+                    <div class="field">
+                        <label for="stock">Unidades</label>
+                        <input id="stock" name="stock" type="number" min="0" step="1" value="0" required>
+                    </div>
+                    <div class="field">
+                        <label for="desarrollador">Desarrollador</label>
+                        <input id="desarrollador" name="desarrollador" type="text" maxlength="150">
+                    </div>
+                    <div class="field">
+                        <label for="fecha_lanzamiento">Fecha de lanzamiento</label>
+                        <input id="fecha_lanzamiento" name="fecha_lanzamiento" type="date">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="imagen">URL de portada</label>
+                    <input id="imagen" name="imagen" type="url" maxlength="255" placeholder="https://...">
+                </div>
+                <div class="form-actions">
+                    <button class="btn-primary" id="save-game" type="submit">$ crear-juego</button>
+                    <button class="terminal-button" id="cancel-game" type="button">cancelar</button>
+                </div>
+            </form>
+            <p id="admin-message" class="form-message" role="status" aria-live="polite"></p>
         </section>
 
         <footer class="store-footer"><span class="prompt">root@gamix:~$</span> echo "gamix store // sistema conectado"<span class="cursor">_</span></footer>
