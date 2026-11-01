@@ -16,9 +16,12 @@ document.getElementById('login-form').addEventListener('submit', async (event) =
         sessionStorage.setItem('gamixToken', result.token);
         sessionStorage.setItem('gamixUser', JSON.stringify(result.usuario));
         window.gamixApi.showMessage(message, `Acceso correcto. Bienvenido, ${result.usuario.nombre}.`);
+        setTimeout(function () { window.location.href = 'index.html' }, 1000);
     } catch (error) {
         window.gamixApi.showMessage(message, error.message, true);
     } finally {
         button.disabled = false;
     }
+
+
 });
