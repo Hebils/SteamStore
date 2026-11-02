@@ -10,22 +10,15 @@ El servidor `server.js` publica las páginas del frontend y reenvía `/api` al b
 
    Permite visualizar localmente la base de datos que se crea con las funciones SQL, consultar las tablas y su información. Esto aparece luego de haber ejecutado paso a paso las instrucciones del archivo `allDatabases.sql`.
 
-3. **Instalar las dependencias y arrancar el backend:**
+3. **Instalar las dependencias y arrancar el servidor:**
 
-   Desde la raíz del proyecto, instala las dependencias si aún no lo has hecho y arranca el backend:
+   Desde la raíz del proyecto, instala las dependencias si aún no lo has hecho y arranca el servidor:
 
    ```bash
    npm install
    node Backend/src/server.js
    ```
 
-4. **Arrancar el frontend:**
-
-   Abre otra terminal en la raíz del proyecto y ejecuta:
-
-   ```bash
-   node Frontend/server.js
-   ```
 
 5. **Abrir la aplicación:**
 
