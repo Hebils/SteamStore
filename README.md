@@ -22,7 +22,7 @@ El servidor `server.js` publica las páginas del frontend y reenvía `/api` al b
 
 5. **Abrir la aplicación:**
 
-   Ingresa a [http://127.0.0.1:5501](http://127.0.0.1:5501).
+   Ingresa a [http://localhost:3000](http://localhost:3000).
 
    No uses Live Server: ese servidor no reenvía las peticiones de API y responde `405` al enviar el formulario.
 
