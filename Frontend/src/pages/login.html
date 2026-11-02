@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,11 @@
     <link rel="stylesheet" href="/auth.css">
     <script type="module" src="/src/pages/login.js"></script>
 </head>
+
 <body>
     <main class="auth-window">
-        <header class="auth-bar"><a href="/store"><span class="prompt">root@gamix:~$</span> GAMIX_</a><span>login.exe</span></header>
+        <header class="auth-bar"><a href="/store"><span class="prompt">root@gamix:~$</span>
+                GAMIX_</a><span>login.exe</span></header>
         <section class="auth-content">
             <a class="back-link" href="/store">&larr; Volver a la tienda</a>
             <p class="terminal-line"><span class="prompt">&gt;</span> ./login</p>
@@ -18,8 +21,11 @@
             <p class="auth-note">Ingresa tus datos para continuar.</p>
             <p id="registro-notice" class="form-message" role="status" hidden></p>
             <form id="login-form">
-                <div class="field"><label for="correo">Correo electr&oacute;nico</label><input id="correo" name="email" type="email" autocomplete="email" required placeholder="Ej: carlos@gmail.com"><small class="field-help">Usa el correo asociado a tu cuenta.</small></div>
-                <div class="field"><label for="password">Contrase&ntilde;a</label><input id="password" name="password" type="password" autocomplete="current-password" required></div>
+                <div class="field"><label for="correo">Correo electr&oacute;nico</label><input id="correo" name="email"
+                        type="email" autocomplete="email" required placeholder="Ej: carlos@gmail.com"><small
+                        class="field-help">Usa el correo asociado a tu cuenta.</small></div>
+                <div class="field"><label for="password">Contrase&ntilde;a</label><input id="password" name="password"
+                        type="password" autocomplete="current-password" required></div>
                 <button class="btn-primary" type="submit">$ acceder</button>
             </form>
             <p id="mensaje" class="form-message" role="status" aria-live="polite"></p>
@@ -27,4 +33,5 @@
         </section>
     </main>
 </body>
+
 </html>
