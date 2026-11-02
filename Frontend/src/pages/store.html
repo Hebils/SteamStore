@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamix | Tienda</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/app.css">
+    <script type="module" src="/src/pages/store.js"></script>
+</head>
+<body>
+    <main class="store app-shell">
+        <header class="store-header">
+            <a class="brand" href="/store"><span class="prompt">root@gamix:~$</span> GAMIX<span class="cursor">_</span></a>
+            <nav class="store-nav" aria-label="Navegaci&oacute;n principal">
+                <a class="active" href="/store">./store</a>
+                <a href="#catalogo">./games</a>
+                <div class="nav-group" data-auth-guest>
+                    <a href="/login">./login</a>
+                    <a class="register" href="/register">./register</a>
+                </div>
+                <div class="nav-group" data-auth-user hidden>
+                    <a href="/library">./library</a>
+                    <a href="/profile">./profile</a>
+                    <a href="/purchases">./purchases</a>
+                    <span class="nav-user">~/<span data-user-name>usuario</span></span>
+                    <button class="nav-logout" type="button" data-logout>./logout</button>
+                </div>
+            </nav>
+        </header>
+
+        <section class="hero" id="destacados">
+            <div class="hero-copy">
+                <p class="terminal-line"><span class="prompt">root@gamix:~$</span> ./explore --featured</p>
+                <p class="eyebrow">// TIENDA DE VIDEOJUEGOS</p>
+                <h1>ENCUENTRA TU<br>PR&Oacute;XIMO JUEGO<span class="cursor">_</span></h1>
+                <p>Explora el cat&aacute;logo, descubre nuevas aventuras y agrega tus juegos favoritos a tu colecci&oacute;n.</p>
+                <a class="button" href="#catalogo"><span class="prompt">$</span> ./explorar-juegos</a>
+            </div>
+            <div class="hero-art terminal-window" aria-label="Vista destacada de un juego">
+                <div class="window-bar"><span>game_preview.exe</span><span>[_] [ ] [x]</span></div>
+                <span class="art-label">output: juego_destacado</span>
+                <span class="planet"></span>
+                <span class="art-title">GAMIX<br>UNIVERSE<span>_</span></span>
+                <span class="art-status">status: catalogo en linea</span>
+            </div>
+        </section>
+
+        <section class="catalog" id="catalogo">
+            <div class="section-heading">
+                <div>
+                    <p class="terminal-line"><span class="prompt">root@gamix:~$</span> GET /api/games</p>
+                    <h2>CAT&Aacute;LOGO<span class="cursor">_</span></h2>
+                </div>
+                <a href="#catalogo">./actualizar</a>
+            </div>
+            <p class="catalog-status" id="catalog-status" role="status" aria-live="polite">Cargando juegos...</p>
+            <div class="game-grid" id="game-list"></div>
+            <button class="terminal-button" id="retry-catalog" type="button" hidden>$ reintentar</button>
+        </section>
+
+        <section class="page-panel admin-tools" id="admin-tools" hidden>
+            <p class="terminal-line"><span class="prompt">root@gamix:~$</span> ./games --admin</p>
+            <h2 class="panel-heading" id="game-form-title">Nuevo juego</h2>
+            <p class="api-note">Los cambios requieren permisos de administrador en la API.</p>
+            <form id="game-form" class="game-form">
+                <input type="hidden" name="id">
+                <div class="field">
+                    <label for="titulo">T&iacute;tulo</label>
+                    <input id="titulo" name="titulo" type="text" maxlength="150" required>
+                </div>
+                <div class="field">
+                    <label for="descripcion">Descripci&oacute;n</label>
+                    <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+                </div>
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="precio">Precio</label>
+                        <input id="precio" name="precio" type="number" min="0" step="0.01" required>
+                    </div>
+                    <div class="field">
+                        <label for="stock">Unidades</label>
+                        <input id="stock" name="stock" type="number" min="0" step="1" value="0" required>
+                    </div>
+                    <div class="field">
+                        <label for="desarrollador">Desarrollador</label>
+                        <input id="desarrollador" name="desarrollador" type="text" maxlength="150">
+                    </div>
+                    <div class="field">
+                        <label for="fecha_lanzamiento">Fecha de lanzamiento</label>
+                        <input id="fecha_lanzamiento" name="fecha_lanzamiento" type="date">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="imagen">URL de portada</label>
+                    <input id="imagen" name="imagen" type="url" maxlength="255" placeholder="https://...">
+                </div>
+                <div class="form-actions">
+                    <button class="btn-primary" id="save-game" type="submit">$ crear-juego</button>
+                    <button class="terminal-button" id="cancel-game" type="button">cancelar</button>
+                </div>
+            </form>
+            <p id="admin-message" class="form-message" role="status" aria-live="polite"></p>
+        </section>
+
+        <footer class="store-footer"><span class="prompt">root@gamix:~$</span> echo "gamix store // sistema conectado"<span class="cursor">_</span></footer>
+    </main>
+</body>
+</html>

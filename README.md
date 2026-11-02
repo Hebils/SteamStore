@@ -16,7 +16,7 @@ El servidor `server.js` publica las páginas del frontend y reenvía `/api` al b
 
    ```bash
    npm install
-   node src/server.js
+   node Backend/src/server.js
    ```
 
 4. **Arrancar el frontend:**
