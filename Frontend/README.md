@@ -29,14 +29,13 @@ Frontend/
 
 ## Ejecutar
 
-Desde la raiz del proyecto, inicia primero el backend y luego el servidor del frontend:
+Desde la raiz del proyecto, inicia el servidor:
 
 ```bash
 node Backend/src/server.js
-node Frontend/server.js
 ```
 
-Abre la URL que muestra el servidor frontend (por defecto `http://127.0.0.1:5501`). No abras las paginas con Live Server porque no aplica las rutas ni el proxy a la API.
+Abre `http://localhost:3000`. Este mismo servidor atiende las paginas, los recursos estaticos y la API.
 
 ## API y pantallas
 
@@ -46,6 +45,6 @@ Abre la URL que muestra el servidor frontend (por defecto `http://127.0.0.1:5501
 - `services/fileService.js` deja el envio multipart centralizado para cuando exista una ruta de archivos.
 - `components/gameCard.js` renderiza tarjetas de juego y acciones de administracion sin interpolar HTML de la API.
 
-Las rutas privadas consultan `GET /api/usuarios/perfil`. Las acciones CRUD visibles para administradores tambien consultan `GET /api/usuarios/admin` antes de enviar el JWT a los endpoints de juegos.
+Las rutas privadas consultan `GET /api/usuarios/perfil`. El catalogo consume `GET /api/games` y `GET /api/games/:id`. Las acciones de administracion verifican `GET /api/usuarios/admin` y usan `POST /api/games`, `PUT /api/games/:id` y `DELETE /api/games/:id` con el JWT.
 
-El backend actual expone autenticacion y rese&ntilde;as, pero aun no define `GET/POST /api/games`, `GET/PUT/DELETE /api/games/:id` ni una ruta de carga de archivos. Por eso el frontend muestra carga, errores, reintento y catalogo vacio sin sustituir respuestas del servidor por datos de prueba. Para que el CRUD persista, el backend debe implementar esos endpoints y comprobar alli el rol admin.
+El formulario usa las columnas de la tabla `juegos`: `titulo`, `descripcion`, `genero`, `precio`, `desarrollador` y `fecha_lanzamiento`. La base de datos genera `id` y `fecha_creacion`; no se envian unidades ni imagen.

@@ -45,7 +45,7 @@ async function loadGames() {
     } catch (error) {
         games = [];
         showStatus(error.status === 404
-            ? 'El backend todavía no define GET /api/games.'
+            ? 'El servidor activo no reconoce GET /api/games. Reinicia el backend actualizado.'
             : error.message || 'No se pudo cargar el catálogo.', true);
         retry.hidden = false;
     }
@@ -62,11 +62,10 @@ function editGame(game) {
     gameForm.elements.id.value = game.id;
     gameForm.elements.titulo.value = game.titulo || game.title || game.nombre || '';
     gameForm.elements.descripcion.value = game.descripcion || game.description || '';
+    gameForm.elements.genero.value = game.genero || game.genre || '';
     gameForm.elements.precio.value = game.precio ?? game.price ?? '';
-    gameForm.elements.imagen.value = game.imagen || game.image || '';
     gameForm.elements.desarrollador.value = game.desarrollador || game.developer || '';
     gameForm.elements.fecha_lanzamiento.value = (game.fecha_lanzamiento || game.releaseDate || '').slice(0, 10);
-    gameForm.elements.stock.value = game.stock ?? 0;
     document.getElementById('game-form-title').textContent = `Editar juego #${game.id}`;
     document.getElementById('save-game').textContent = '$ guardar-cambios';
     gameForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -76,11 +75,10 @@ function gameData() {
     return {
         titulo: gameForm.elements.titulo.value.trim(),
         descripcion: gameForm.elements.descripcion.value.trim(),
+        genero: gameForm.elements.genero.value.trim(),
         precio: Number(gameForm.elements.precio.value),
-        imagen: gameForm.elements.imagen.value.trim() || null,
         desarrollador: gameForm.elements.desarrollador.value.trim() || null,
-        fecha_lanzamiento: gameForm.elements.fecha_lanzamiento.value || null,
-        stock: Number(gameForm.elements.stock.value)
+        fecha_lanzamiento: gameForm.elements.fecha_lanzamiento.value || null
     };
 }
 
@@ -113,7 +111,10 @@ async function saveGame(event) {
         await loadGames();
     } catch (error) {
         if (handleExpiredAdminSession(error)) return;
-        showAdminMessage(error.message || 'No se pudo guardar el juego.', true);
+        const message = error.status === 404
+            ? `El servidor activo no reconoce ${id ? 'PUT /api/games/:id' : 'POST /api/games'}. Reinicia el backend actualizado.`
+            : error.message || 'No se pudo guardar el juego.';
+        showAdminMessage(message, true);
     } finally {
         button.disabled = false;
     }
