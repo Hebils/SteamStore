@@ -30,6 +30,11 @@ async function prepareBucket() {
     const existing = buckets.find(bucket => bucket.name === bucketName);
     if (existing) {
         if (existing.public) throw new Error('El bucket gamix-imagenes debe ser privado.');
+        if (Number(existing.file_size_limit) !== maxBytes) throw new Error('El límite del bucket debe ser de 5 MiB.');
+        const allowed = new Set(existing.allowed_mime_types);
+        if (allowed.size !== mimeTypes.length || !mimeTypes.every(type => allowed.has(type))) {
+            throw new Error('El bucket debe aceptar únicamente image/png e image/jpeg.');
+        }
         return;
     }
     resultOf(await api.createBucket(bucketName, { public: false, fileSizeLimit: maxBytes, allowedMimeTypes: mimeTypes }));
