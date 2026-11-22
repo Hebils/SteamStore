@@ -13,7 +13,7 @@ router.post('/registro', registrarUsuario);
 
 router.post('/login', iniciarSesion);
 
-router.get('/perfil', verificarToken, (req, res) => {
+router.get(['/perfil', '/me'], verificarToken, (req, res) => {
     res.json({
         status: 'ok',
         message: 'Acceso autorizado',
@@ -30,5 +30,3 @@ router.get('/admin', verificarToken, verificarRol('admin'), (req, res) => {
 });
 
 module.exports = router;
-
-//..
