@@ -44,14 +44,14 @@ function validateGameData(body = {}) {
 }
 
 router.get('/', async (req, res) => {
-    const [games] = await pool.query(`SELECT ${gameFields} FROM juegos ORDER BY fecha_creacion DESC, id DESC`);
+    const [games] = await pool.query(`SELECT ${gameFields} FROM juegos WHERE publicado = 1 ORDER BY fecha_creacion DESC, id DESC`);
     res.json({ games });
 });
 
 router.get('/:id', async (req, res) => {
     const id = Number(req.params.id);
 
-    const [games] = await pool.query(`SELECT ${gameFields} FROM juegos WHERE id = ?`, [id]);
+    const [games] = await pool.query(`SELECT ${gameFields} FROM juegos WHERE id = ? AND publicado = 1`, [id]);
     if (!games.length) throw new ApiError(404, 'Juego no encontrado.');
     res.json({ game: games[0] });
 });
@@ -65,7 +65,7 @@ router.post('/', verificarToken, verificarRol('admin'), async (req, res) => {
          VALUES (?, ?, ?, ?, ?, ?)`,
         [data.titulo, data.descripcion, data.genero, data.precio, data.desarrollador, data.fecha_lanzamiento]
     );
-    const [games] = await pool.query(`SELECT ${gameFields} FROM juegos WHERE id = ?`, [result.insertId]);
+    const [games] = await pool.query(`SELECT ${gameFields} FROM juegos WHERE id = ? AND publicado = 1`, [result.insertId]);
     res.status(201).json({ status: 'ok', game: games[0] });
 });
 
@@ -77,21 +77,21 @@ router.put('/:id', verificarToken, verificarRol('admin'), async (req, res) => {
     const [result] = await pool.query(
         `UPDATE juegos
          SET titulo = ?, descripcion = ?, genero = ?, precio = ?, desarrollador = ?, fecha_lanzamiento = ?
-         WHERE id = ?`,
+         WHERE id = ? AND publicado = 1`,
         [data.titulo, data.descripcion, data.genero, data.precio, data.desarrollador, data.fecha_lanzamiento, id]
     );
     if (!result.affectedRows) {
-        const [existing] = await pool.query('SELECT id FROM juegos WHERE id = ?', [id]);
+        const [existing] = await pool.query('SELECT id FROM juegos WHERE id = ? AND publicado = 1', [id]);
         if (!existing.length) throw new ApiError(404, 'Juego no encontrado.');
     }
-    const [games] = await pool.query(`SELECT ${gameFields} FROM juegos WHERE id = ?`, [id]);
+    const [games] = await pool.query(`SELECT ${gameFields} FROM juegos WHERE id = ? AND publicado = 1`, [id]);
     res.json({ status: 'ok', game: games[0] });
 });
 
 router.delete('/:id', verificarToken, verificarRol('admin'), async (req, res) => {
     const id = Number(req.params.id);
 
-    const [result] = await pool.query('DELETE FROM juegos WHERE id = ?', [id]);
+    const [result] = await pool.query('UPDATE juegos SET publicado = 0 WHERE id = ? AND publicado = 1', [id]);
     if (!result.affectedRows) throw new ApiError(404, 'Juego no encontrado.');
     res.json({ status: 'ok', message: 'Juego eliminado correctamente.' });
 });

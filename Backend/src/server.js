@@ -53,6 +53,7 @@ app.use('/api/usuarios', usuarioRoutes);
 // PUT /api/resenas/:id
 // DELETE /api/resenas/:id
 app.use('/api', resenaRoutes);
+app.use('/api', require('./routes/purchaseRoutes'));
 
 app.use('/api/games', require('./routes/gameRoutes'));
 

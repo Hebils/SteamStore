@@ -42,7 +42,7 @@ const crearResena = async (req, res) => {
 
 
     const [juegos] = await pool.query(
-        'SELECT id FROM juegos WHERE id = ?',
+        'SELECT id FROM juegos WHERE id = ? AND publicado = 1',
         [id]
     );
 
