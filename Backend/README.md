@@ -40,3 +40,7 @@ Todas las rutas siguientes llevan el prefijo `/api`. Las privadas reciben el enc
 ## Demostración del flujo
 
 Publica un juego con el administrador, inicia sesión con una segunda cuenta y agrega el juego al carrito. Confirma la compra y vuelve a consultar historial y biblioteca tras reiniciar el servidor. Sube una imagen de perfil, recarga la lista y abre el enlace firmado. En el panel de Supabase se verá el objeto con UUID y en MariaDB su registro asociado al usuario.
+
+## Prueba de regresión de compras
+
+Con MariaDB local activo, ejecuta `npm test` desde la raíz. Usa una base temporal con un nombre aleatorio para comprobar dos confirmaciones simultáneas y la recuperación tras un fallo al guardar el detalle. La cuenta local necesita permiso para crear y eliminar esa base temporal.
