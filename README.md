@@ -1,62 +1,8 @@
-# Ejecutar el frontend Gamix
+# Gamix · SteamStore
 
-El servidor `server.js` publica las páginas del frontend y reenvía `/api` al backend para evitar problemas de CORS (futuro).
+La tienda y la API arrancan desde la raíz con `node .\Backend\src\server.js`.
 
-1. **Debes tener instalado XAMPP Control Panel:**
-
-   Luego de tenerlo instalado, se debería iniciar/levantar Apache y MySQL.
-
-2. **Abrir el administrador de MySQL:**
-
-   Permite visualizar localmente la base de datos que se crea con las funciones SQL, consultar las tablas y su información. Esto aparece luego de haber ejecutado paso a paso las instrucciones del archivo `allDatabases.sql`.
-
-3. **Instalar las dependencias y arrancar el servidor:**
-
-   Desde la raíz del proyecto, instala las dependencias si aún no lo has hecho y arranca el servidor:
-
-   ```bash
-   npm install
-   node Backend/src/server.js
-   ```
-
-
-5. **Abrir la aplicación:**
-
-   Ingresa a [http://localhost:3000](http://localhost:3000).
-
-   No uses Live Server: ese servidor no reenvía las peticiones de API y responde `405` al enviar el formulario.
-
-El backend usa MySQL mediante `mysql2`. Enciende MySQL y ejecuta `allDatabases.sql`.
-
-6. **Crear el archivo `.env`:**
-
-   Agrega un archivo `.env` en la raíz del proyecto con las siguientes variables. Copia y pega el contenido:
-
-   ```env
-   PORT=3000
-   SECRET_KEY=miclavesupersegura
-   DB_HOST=localhost
-   DB_PORT=3306
-   DB_USER=root
-   DB_PASSWORD=
-   DB_NAME=steamstore_db
-   ```
-
-   El archivo `.env` no existe actualmente en el proyecto, por lo que hay que crearlo directamente.
-
-7. Si el puerto 5501 está ocupado, configura `FRONTEND_PORT`. Para cambiar el puerto del backend, configura `API_PORT` con el mismo valor que `PORT`.
-
-8. **Verificar la conexión a la base de datos:**
-
-   Ingresa a [http://localhost:3000/api/health](http://localhost:3000/api/health) y verifica que la conexión a la base de datos esté funcionando correctamente.
-
-9. **IMPORTANTE: Instalar las dependencias antes de desplegar el proyecto.**
-
-   Ejecuta los siguientes comandos en la raíz del proyecto y en este orden:
-
-   1. `npm install express mysql2 dotenv`
-   2. `npm install bcrypt`
-   3. `npm install jsonwebtoken`
+La [guía del backend](Backend/README.md) incluye la preparación de XAMPP y Supabase, juegos de demostración y los endpoints que consume el frontend.
 
 ## Módulo de reseñas
 

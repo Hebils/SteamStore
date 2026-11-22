@@ -10,15 +10,6 @@ require('dotenv').config({
 
 const PORT = Number(process.env.PORT) || 3000;
 
-// Evita apuntar MySQL al mismo puerto que este servidor HTTP.
-if (
-    ['localhost', '127.0.0.1', '::1'].includes(process.env.DB_HOST) &&
-    Number(process.env.DB_PORT) === PORT
-) {
-    process.env.DB_PORT = '3306';
-    console.warn('DB_PORT coincide con PORT; se usara el puerto local de MySQL 3306.');
-}
-
 // Importa la conexión a la base de datos.
 const pool = require('./config/db');
 
