@@ -54,6 +54,7 @@ app.use('/api/usuarios', usuarioRoutes);
 // DELETE /api/resenas/:id
 app.use('/api', resenaRoutes);
 app.use('/api', require('./routes/purchaseRoutes'));
+app.use('/api', require('./routes/imageRoutes'));
 
 app.use('/api/games', require('./routes/gameRoutes'));
 
