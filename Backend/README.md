@@ -50,3 +50,4 @@ Con MariaDB local activo, ejecuta `npm test` desde la raíz. Usa una base tempor
 El 22 de noviembre de 2026 se probó la subida desde Express con una cuenta de prueba y una base MariaDB temporal. La ruta de imágenes del perfil devolvió HTTP 201. Al consultar el perfil, la API recuperó los metadatos y generó un enlace firmado al bucket privado. La descarga devolvió HTTP 200 y se verificaron tanto el formato PNG como el tamaño registrado en MariaDB. Al terminar se retiraron el objeto y la base de prueba.
 
 Para repetir la comprobación, inicia sesión y envía una imagen en el campo multipart `file` a `POST /api/usuarios/me/imagenes`. Con el mismo token, llama a `GET /api/usuarios/me/imagenes`, abre el enlace de la imagen y compara los bytes descargados con `tamano`.
+..
