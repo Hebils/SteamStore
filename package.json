@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test Backend/test/compras.test.js"
   },
   "repository": {
     "type": "git",
@@ -19,10 +19,13 @@
   },
   "homepage": "https://github.com/Hebils/SteamStore#readme",
   "dependencies": {
+    "@supabase/supabase-js": "^2.119.2",
     "bcrypt": "^6.0.0",
     "dotenv": "^18.0.4",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "mysql2": "^3.24.5"
+    "multer": "^2.5.0",
+    "mysql2": "^3.24.5",
+    "sharp": "^0.35.5"
   }
 }
