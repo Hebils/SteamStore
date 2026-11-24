@@ -13,14 +13,24 @@ function getSession() {
     if (!token) return null;
 
     try {
-        const encodedPayload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-        const paddedPayload = encodedPayload.padEnd(Math.ceil(encodedPayload.length / 4) * 4, '=');
+        const encodedPayload = token
+            .split('.')[1]
+            .replace(/-/g, '+')
+            .replace(/_/g, '/');
+        const paddedPayload = encodedPayload.padEnd(
+            Math.ceil(encodedPayload.length / 4) * 4,
+            '='
+        );
         const payload = JSON.parse(atob(paddedPayload));
         if (!payload.exp || payload.exp * 1000 <= Date.now()) {
             clearSession();
             return null;
         }
-        return { token, user: JSON.parse(sessionStorage.getItem(USER_KEY) || '{}'), payload };
+        return {
+            token,
+            user: JSON.parse(sessionStorage.getItem(USER_KEY) || '{}'),
+            payload
+        };
     } catch {
         clearSession();
         return null;
@@ -29,11 +39,11 @@ function getSession() {
 
 function getSafeReturnPath() {
     const requested = new URLSearchParams(location.search).get('next');
-    const valid = requested && (
-        /^\/(library|profile|purchases)\/?$/.test(requested) ||
-        requested === '/store' ||
-        /^\/games\/[a-zA-Z0-9_-]+\/?$/.test(requested)
-    );
+    const valid =
+        requested &&
+        (/^\/(library|profile|purchases|cart)\/?$/.test(requested) ||
+            requested === '/store' ||
+            /^\/games\/[a-zA-Z0-9_-]+\/?$/.test(requested));
     return valid ? requested : '/store';
 }
 
@@ -67,7 +77,8 @@ export const authService = {
 
     validateAdmin: () => {
         const session = getSession();
-        if (!session) return Promise.reject(new Error('Inicia sesión para continuar.'));
+        if (!session)
+            return Promise.reject(new Error('Inicia sesión para continuar.'));
         return api.get('usuarios/admin', session.token);
     },
 
