@@ -109,6 +109,10 @@ app.get('/purchases', (req, res) => {
     res.sendFile(path.join(pagesPath, 'purchases.html'));
 });
 
+app.get('/cart', (req, res) => {
+    res.sendFile(path.join(pagesPath, 'cart.html'));
+});
+
 app.get('/games/:id', (req, res) => {
     res.sendFile(path.join(pagesPath, 'game.html'));
 });

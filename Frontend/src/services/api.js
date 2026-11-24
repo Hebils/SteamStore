@@ -11,8 +11,10 @@ export class ApiError extends Error {
 
 async function request(path, { method = 'GET', data, token } = {}) {
     const headers = {};
-    const isFormData = typeof FormData !== 'undefined' && data instanceof FormData;
-    if (data !== undefined && !isFormData) headers['Content-Type'] = 'application/json';
+    const isFormData =
+        typeof FormData !== 'undefined' && data instanceof FormData;
+    if (data !== undefined && !isFormData)
+        headers['Content-Type'] = 'application/json';
     if (token) headers.Authorization = `Bearer ${token}`;
 
     let response;
@@ -20,10 +22,19 @@ async function request(path, { method = 'GET', data, token } = {}) {
         response = await fetch(`${API_ROOT}/${path.replace(/^\//, '')}`, {
             method,
             headers,
-            body: data === undefined ? undefined : isFormData ? data : JSON.stringify(data)
+            cache: 'no-store',
+            signal: AbortSignal.timeout(20000),
+            body:
+                data === undefined
+                    ? undefined
+                    : isFormData
+                      ? data
+                      : JSON.stringify(data)
         });
     } catch {
-        throw new ApiError('No se pudo conectar con la API. Verifica que el backend esté encendido.');
+        throw new ApiError(
+            'No pudimos conectar con el servidor. Revisa tu conexión e intenta de nuevo.'
+        );
     }
 
     const contentType = response.headers.get('content-type') || '';
@@ -32,11 +43,13 @@ async function request(path, { method = 'GET', data, token } = {}) {
         : await response.text().catch(() => '');
 
     if (!response.ok) {
-        let message = typeof body === 'object' && body?.message
-            ? body.message
-            : `La API respondió con el estado ${response.status}.`;
+        let message =
+            typeof body === 'object' && body?.message
+                ? body.message
+                : `La API respondió con el estado ${response.status}.`;
         if (response.status === 405) {
-            message = 'Este servidor no admite solicitudes a la API. Ejecuta Frontend/server.js y usa el puerto que muestra la terminal.';
+            message =
+                'Esta acción no está disponible en este momento. Intenta de nuevo más tarde.';
         }
         throw new ApiError(message, response.status, body);
     }
@@ -49,5 +62,6 @@ export const api = {
     post: (path, data, token) => request(path, { method: 'POST', data, token }),
     put: (path, data, token) => request(path, { method: 'PUT', data, token }),
     delete: (path, token) => request(path, { method: 'DELETE', token }),
-    upload: (path, formData, token) => request(path, { method: 'POST', data: formData, token })
+    upload: (path, formData, token) =>
+        request(path, { method: 'POST', data: formData, token })
 };

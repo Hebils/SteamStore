@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#090f0c" />
+        <title>Gamix | Tu carrito</title>
+        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="/app.css" />
+        <script type="module" src="/src/pages/cart.js"></script>
+    </head>
+    <body data-page="cart">
+        <div class="store app-shell">
+            <a class="skip-link" href="#main-content">Saltar al contenido</a>
+            <header class="store-header">
+                <a class="brand" href="/store">GAMIX_</a>
+                <nav class="store-nav" aria-label="Navegación principal">
+                    <a href="/store">Tienda</a><a href="/cart">Carrito</a
+                    ><a href="/library">Biblioteca</a
+                    ><a href="/purchases">Compras</a>
+                </nav>
+            </header>
+            <main id="main-content" tabindex="-1">
+                <section class="page-intro">
+                    <p class="terminal-line">~/ gamix / cart</p>
+                    <h1>
+                        Tu carrito<span class="cursor" aria-hidden="true"
+                            >_</span
+                        >
+                    </h1>
+                    <p>
+                        Revisa tu selección. La siguiente aventura la eliges tú.
+                    </p>
+                </section>
+
+                <div class="page-toolbar">
+                    <a class="terminal-button" href="/store"
+                        >Seguir explorando</a
+                    ><button
+                        id="refresh-cart"
+                        class="terminal-button"
+                        type="button"
+                    >
+                        Actualizar carrito
+                    </button>
+                </div>
+                <p
+                    class="route-status"
+                    id="route-status"
+                    role="status"
+                    aria-live="polite"
+                >
+                    Cargando…
+                </p>
+                <button
+                    class="terminal-button"
+                    id="retry-session"
+                    type="button"
+                    hidden
+                >
+                    Reintentar
+                </button>
+                <section
+                    id="protected-content"
+                    hidden
+                    aria-label="Contenido del carrito"
+                >
+                    <p
+                        id="cart-feedback"
+                        class="form-message notice"
+                        role="status"
+                        aria-live="polite"
+                        hidden
+                    ></p>
+                    <button
+                        id="recover-purchase"
+                        type="button"
+                        class="terminal-button"
+                        hidden
+                    >
+                        Comprobar compra
+                    </button>
+                    <section
+                        id="purchase-success"
+                        class="success-panel"
+                        tabindex="-1"
+                        aria-label="Compra completada"
+                        hidden
+                    ></section>
+                    <div id="cart-empty"></div>
+                    <div id="cart-layout" class="cart-layout" hidden>
+                        <div>
+                            <div class="section-heading">
+                                <h2>Tu selección</h2>
+                                <span class="badge" id="cart-count"></span>
+                            </div>
+                            <div id="cart-items" class="cart-items"></div>
+                        </div>
+                        <aside
+                            class="order-summary"
+                            aria-labelledby="summary-title"
+                        >
+                            <p class="terminal-line">~/ resumen</p>
+                            <h2 id="summary-title">
+                                Todo listo para tu biblioteca
+                            </h2>
+                            <div class="summary-line">
+                                <span>Total estimado</span
+                                ><strong id="cart-total">—</strong>
+                            </div>
+                            <p class="muted">
+                                Una copia digital por juego, para tu cuenta.
+                            </p>
+                            <p
+                                id="cart-warning"
+                                class="form-message is-error"
+                                role="status"
+                                hidden
+                            ></p>
+                            <button
+                                id="checkout"
+                                class="btn-primary"
+                                type="button"
+                                disabled
+                            >
+                                Revisar compra
+                            </button>
+                            <p class="checkout-note">
+                                Compra simulada · Sin cobros reales
+                            </p>
+                            <a href="/purchases">Consultar mis compras</a>
+                        </aside>
+                    </div>
+                </section>
+                <details class="help-panel">
+                    <summary>¿Cómo funciona la compra simulada?</summary>
+                    <p>
+                        Añade juegos, revisa la selección y confirma la compra.
+                        No necesitas datos de pago. Tus juegos aparecerán en la
+                        biblioteca y tendrás un comprobante en Compras.
+                    </p>
+                    <p>
+                        Si la conexión se interrumpe al confirmar, utiliza
+                        «Comprobar compra» antes de volver a intentarlo.
+                    </p>
+                </details>
+            </main>
+            <footer class="store-footer">
+                <span class="footer-brand">GAMIX_</span
+                ><span>Tu próxima aventura, a un comando.</span
+                ><a href="/store">Explorar tienda</a>
+            </footer>
+        </div>
+        <noscript
+            ><p class="empty-state">
+                Activa JavaScript para consultar tu cuenta y gestionar tus
+                juegos.
+            </p></noscript
+        >
+    </body>
+</html>

@@ -1,46 +1,118 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#090f0c" />
+        <title>Gamix | Mi biblioteca</title>
+        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="/app.css" />
+        <script type="module" src="/src/pages/collection.js"></script>
+    </head>
+    <body data-page="library">
+        <div class="store app-shell">
+            <a class="skip-link" href="#main-content">Saltar al contenido</a>
+            <header class="store-header">
+                <a class="brand" href="/store">GAMIX_</a>
+                <nav class="store-nav" aria-label="Navegación principal">
+                    <a href="/store">Tienda</a><a href="/cart">Carrito</a
+                    ><a href="/library">Biblioteca</a
+                    ><a href="/purchases">Compras</a>
+                </nav>
+            </header>
+            <main id="main-content" tabindex="-1">
+                <section class="page-intro">
+                    <p class="terminal-line">~/ gamix / library</p>
+                    <h1>
+                        Mi biblioteca<span class="cursor" aria-hidden="true"
+                            >_</span
+                        >
+                    </h1>
+                    <p>
+                        Todas tus aventuras, en un solo lugar. Estos juegos ya
+                        son tuyos.
+                    </p>
+                </section>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamix | Biblioteca</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/app.css">
-    <script type="module" src="/src/pages/privatePage.js"></script>
-</head>
-
-<body data-page="library">
-    <main class="store app-shell">
-        <header class="store-header">
-            <a class="brand" href="/store"><span class="prompt">root@gamix:~$</span> GAMIX<span
-                    class="cursor">_</span></a>
-            <nav class="store-nav" aria-label="Navegaci&oacute;n de cuenta">
-                <a href="/store">./store</a>
-                <div class="nav-group" data-auth-user hidden><a class="active" href="/library">./library</a><a
-                        href="/profile">./profile</a><a href="/purchases">./purchases</a><span class="nav-user">~/<span
-                            data-user-name>usuario</span></span><button class="nav-logout" type="button"
-                        data-logout>./logout</button></div>
-                <div class="nav-group" data-auth-guest><a href="/login">./login</a><a class="register"
-                        href="/register">./register</a></div>
-            </nav>
-        </header>
-        <section class="page-intro">
-            <p class="terminal-line"><span class="prompt">root@gamix:~$</span> ls ~/library</p>
-            <h1>Mi biblioteca<span class="cursor">_</span></h1>
-            <p>Tus juegos y aventuras, organizados en un solo lugar.</p>
-        </section>
-        <p class="route-status" id="route-status" role="status" aria-live="polite">Verificando sesi&oacute;n...</p>
-        <button class="terminal-button" id="retry-session" type="button" hidden>$ revalidar-sesion</button>
-        <section class="page-panel" id="protected-content" hidden>
-            <h2 class="panel-heading">// COLECCI&Oacute;N</h2>
-            <div class="empty-state"><strong>La biblioteca est&aacute; lista para conectarse.</strong>El backend
-                todav&iacute;a no expone una ruta para consultar los juegos adquiridos. Cuando est&eacute; disponible,
-                aqu&iacute; aparecer&aacute; tu colecci&oacute;n personal.<a href="/store">$ explorar-catalogo</a></div>
-        </section>
-        <footer class="store-footer"><span class="prompt">root@gamix:~$</span> echo "private route // library"<span
-                class="cursor">_</span></footer>
-    </main>
-</body>
-
+                <div class="page-toolbar">
+                    <a class="terminal-button" href="/store">Explorar juegos</a
+                    ><button
+                        id="refresh-collection"
+                        class="terminal-button"
+                        type="button"
+                    >
+                        Actualizar
+                    </button>
+                </div>
+                <p
+                    class="route-status"
+                    id="route-status"
+                    role="status"
+                    aria-live="polite"
+                >
+                    Cargando…
+                </p>
+                <button
+                    class="terminal-button"
+                    id="retry-session"
+                    type="button"
+                    hidden
+                >
+                    Reintentar
+                </button>
+                <section
+                    id="protected-content"
+                    hidden
+                    aria-label="Juegos adquiridos"
+                >
+                    <div class="collection-toolbar">
+                        <div class="search-field">
+                            <label for="collection-search"
+                                >Buscar en mi biblioteca</label
+                            ><input
+                                id="collection-search"
+                                type="search"
+                                placeholder="Título o género…"
+                                autocomplete="off"
+                            />
+                        </div>
+                        <button
+                            id="clear-search"
+                            class="terminal-button"
+                            type="button"
+                            hidden
+                        >
+                            Limpiar
+                        </button>
+                        <p
+                            id="collection-count"
+                            class="muted"
+                            role="status"
+                        ></p>
+                    </div>
+                    <div id="collection-list" class="game-grid"></div>
+                </section>
+                <details class="help-panel">
+                    <summary>¿Qué puedo hacer con mis juegos?</summary>
+                    <p>
+                        Abre la ficha de un juego para consultar sus detalles.
+                        Los juegos retirados de la tienda permanecen en tu
+                        biblioteca. Este proyecto no incluye descargas ni
+                        ejecución de videojuegos.
+                    </p>
+                </details>
+            </main>
+            <footer class="store-footer">
+                <span class="footer-brand">GAMIX_</span
+                ><span>Tu próxima aventura, a un comando.</span
+                ><a href="/store">Explorar tienda</a>
+            </footer>
+        </div>
+        <noscript
+            ><p class="empty-state">
+                Activa JavaScript para consultar tu cuenta y gestionar tus
+                juegos.
+            </p></noscript
+        >
+    </body>
 </html>

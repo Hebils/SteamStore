@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node --test Backend/test/compras.test.js"
+    "test": "node --test Backend/test/compras.test.js",
+    "test:frontend": "playwright test -c Frontend/test/playwright.config.cjs"
   },
   "repository": {
     "type": "git",
@@ -27,5 +28,9 @@
     "multer": "^2.5.0",
     "mysql2": "^3.24.5",
     "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.1"
   }
 }
