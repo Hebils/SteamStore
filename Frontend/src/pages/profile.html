@@ -12,14 +12,17 @@
     <body data-page="profile">
         <div class="store app-shell">
             <a class="skip-link" href="#main-content">Saltar al contenido</a>
+
             <header class="store-header">
                 <a class="brand" href="/store">GAMIX_</a>
                 <nav class="store-nav" aria-label="Navegación principal">
-                    <a href="/store">Tienda</a><a href="/cart">Carrito</a
-                    ><a href="/library">Biblioteca</a
-                    ><a href="/purchases">Compras</a>
+                    <a href="/store">Tienda</a>
+                    <a href="/cart">Carrito</a>
+                    <a href="/library">Biblioteca</a>
+                    <a href="/purchases">Compras</a>
                 </nav>
             </header>
+
             <main id="main-content" tabindex="-1">
                 <section class="page-intro">
                     <p class="terminal-line">
@@ -27,16 +30,18 @@
                         ~/profile.json
                     </p>
                     <h1>Mi perfil<span class="cursor">_</span></h1>
-                    <p>Consulta los datos de tu cuenta.</p>
+                    <p>Consulta y actualiza los datos de tu cuenta.</p>
                 </section>
+
                 <p
                     class="route-status"
                     id="route-status"
                     role="status"
                     aria-live="polite"
                 >
-                    Verificando sesi&oacute;n...
+                    Verificando sesión...
                 </p>
+
                 <button
                     class="terminal-button"
                     id="retry-session"
@@ -45,48 +50,149 @@
                 >
                     Reintentar
                 </button>
+
                 <section class="page-panel" id="protected-content" hidden>
                     <h2 class="panel-heading">// USUARIO AUTENTICADO</h2>
+
                     <div class="profile-grid">
-                        <div
-                            class="profile-avatar"
-                            id="profile-avatar"
-                            aria-hidden="true"
-                        >
-                            G
+                        <div class="profile-avatar-container">
+                            <div
+                                class="profile-avatar"
+                                id="profile-avatar"
+                                aria-hidden="true"
+                            >
+                                G
+                            </div>
+
+                            <label
+                                for="profile-image"
+                                class="terminal-button"
+                            >
+                                Cambiar foto
+                            </label>
+
+                            <input
+                                type="file"
+                                id="profile-image"
+                                accept="image/png,image/jpeg"
+                                hidden
+                            />
+
+                            <p
+                                id="profile-image-status"
+                                role="status"
+                                aria-live="polite"
+                            ></p>
                         </div>
+
                         <dl class="profile-details">
                             <div>
                                 <dt>Nombre</dt>
                                 <dd data-profile-name>—</dd>
                             </div>
+
                             <div>
                                 <dt>Correo</dt>
                                 <dd data-profile-email>—</dd>
                             </div>
+
                             <div>
                                 <dt>Rol</dt>
                                 <dd data-profile-role>—</dd>
                             </div>
+
                             <div>
                                 <dt>ID de usuario</dt>
                                 <dd data-profile-id>—</dd>
                             </div>
                         </dl>
                     </div>
+
+                    <div class="profile-edit">
+                        <h2 class="panel-heading">// EDITAR DATOS</h2>
+
+                        <form id="profile-edit-form">
+                            <div class="form-group">
+                                <label for="profile-name">Nombre</label>
+                                <input
+                                    type="text"
+                                    id="profile-name"
+                                    name="nombre"
+                                    maxlength="100"
+                                    required
+                                    autocomplete="name"
+                                    placeholder="Tu nombre"
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="profile-email">
+                                    Correo electrónico
+                                </label>
+                                <input
+                                    type="email"
+                                    id="profile-email"
+                                    name="email"
+                                    maxlength="150"
+                                    required
+                                    autocomplete="email"
+                                    placeholder="tu@correo.com"
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                class="terminal-button"
+                                id="profile-save-button"
+                            >
+                                Guardar cambios
+                            </button>
+
+                            <p
+                                id="profile-edit-status"
+                                class="form-message"
+                                role="status"
+                                aria-live="polite"
+                            ></p>
+                        </form>
+                    </div>
+
                     <div class="form-actions">
-                        <a class="terminal-button" href="/library"
-                            >Mi biblioteca</a
-                        ><a class="terminal-button" href="/purchases"
-                            >Mis compras</a
+                        <a class="terminal-button" href="/library">
+                            Mi biblioteca
+                        </a>
+
+                        <a class="terminal-button" href="/purchases">
+                            Mis compras
+                        </a>
+                    </div>
+
+                    <div class="profile-files">
+                        <h2 class="panel-heading">// MIS ARCHIVOS</h2>
+
+                        <p>Consulta las imágenes que has subido a GAMIX.</p>
+
+                        <p
+                            id="profile-files-status"
+                            class="form-message"
+                            role="status"
+                            aria-live="polite"
                         >
+                            Cargando archivos...
+                        </p>
+
+                        <div
+                            id="profile-files-list"
+                            class="profile-files-list"
+                        ></div>
                     </div>
                 </section>
             </main>
+
             <footer class="store-footer">
-                <span class="footer-brand">GAMIX_</span
-                ><span>Tu próxima aventura, a un comando.</span
-                ><a href="/store">Explorar tienda</a>
+                <span class="footer-brand">GAMIX_</span>
+                <span>Tu próxima aventura, a un comando.</span>
+                <a href="/store">Explorar tienda</a>
             </footer>
         </div>
     </body>
