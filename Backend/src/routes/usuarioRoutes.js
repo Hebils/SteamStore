@@ -1,9 +1,11 @@
+
 const express = require('express');
 const router = express.Router();
 
 const {
     registrarUsuario,
-    iniciarSesion
+    iniciarSesion,
+    actualizarPerfil
 } = require('../controllers/usuarioController');
 
 const verificarToken = require('../middleware/authMiddleware');
@@ -20,6 +22,8 @@ router.get(['/perfil', '/me'], verificarToken, (req, res) => {
         usuario: req.usuario
     });
 });
+
+router.put('/me', verificarToken, actualizarPerfil);
 
 router.get('/admin', verificarToken, verificarRol('admin'), (req, res) => {
     res.json({

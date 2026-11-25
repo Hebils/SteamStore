@@ -1,5 +1,6 @@
 import { authService } from '../services/authService.js';
 import { gameService } from '../services/gameService.js';
+import { fileService } from '../services/fileService.js';
 import { createGameCard } from '../components/gameCard.js';
 import { setupNavigation } from '../components/navigation.js';
 import { refreshCommerce } from '../services/commerceState.js';
@@ -12,9 +13,13 @@ const retry = document.getElementById('retry-catalog');
 const adminPanel = document.getElementById('admin-tools');
 const gameForm = document.getElementById('game-form');
 const adminMessage = document.getElementById('admin-message');
+const gameImageInput = document.getElementById('game-image');
+const gameImageStatus = document.getElementById('game-image-status');
+
 let games = [];
 let isAdmin = false;
 let loading = false;
+
 const search = document.getElementById('catalog-search');
 const refresh = document.getElementById('refresh-catalog');
 
@@ -28,12 +33,34 @@ function showAdminMessage(message, isError = false) {
     adminMessage.classList.toggle('is-error', isError);
 }
 
+function showImageStatus(message, isError = false) {
+    gameImageStatus.textContent = message;
+    gameImageStatus.classList.toggle('is-error', isError);
+}
+
+function validateGameImage(file) {
+    if (!file) return null;
+
+    if (!['image/png', 'image/jpeg'].includes(file.type)) {
+        return 'Selecciona una imagen PNG o JPG.';
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        return 'La imagen no puede superar los 5 MB.';
+    }
+
+    return null;
+}
+
 function renderGames() {
     const term = search.value.trim().toLocaleLowerCase('es');
+
     const filtered = games.filter((game) =>
         `${game.titulo} ${game.genero}`.toLocaleLowerCase('es').includes(term)
     );
+
     document.getElementById('clear-catalog-search').hidden = !search.value;
+
     list.replaceChildren(
         ...filtered.map((game, index) =>
             createGameCard(game, index, {
@@ -43,9 +70,11 @@ function renderGames() {
             })
         )
     );
+
     showStatus(
         `${filtered.length} ${filtered.length === 1 ? 'juego disponible' : 'juegos disponibles'}${term ? ' para tu búsqueda' : ''}.`
     );
+
     if (!filtered.length) {
         const empty = emptyState(
             games.length
@@ -57,38 +86,68 @@ function renderGames() {
             games.length ? 'Limpiar búsqueda' : 'Actualizar catálogo',
             '#catalogo'
         );
+
         empty.querySelector('a').addEventListener('click', (event) => {
             event.preventDefault();
+
             if (games.length) {
                 search.value = '';
                 renderGames();
                 search.focus();
-            } else loadGames();
+            } else {
+                loadGames();
+            }
         });
+
         list.append(empty);
     }
 }
 
 async function loadGames() {
     if (loading) return;
+
     loading = true;
     refresh.disabled = true;
     search.disabled = true;
     list.setAttribute('aria-busy', 'true');
     retry.hidden = true;
     list.replaceChildren();
+
     showStatus('Cargando juegos…');
+
     try {
-        games = await gameService.list();
+        const catalog = await gameService.list();
+
+        games = await Promise.all(
+            catalog.map(async (game) => {
+                try {
+                    const result = await fileService.getGameImages(game.id);
+                    const images = result.files || [];
+
+                    return {
+                        ...game,
+                        portadaUrl: images[0]?.url || null
+                    };
+                } catch {
+                    return {
+                        ...game,
+                        portadaUrl: null
+                    };
+                }
+            })
+        );
+
         renderGames();
     } catch (error) {
         games = [];
+
         showStatus(
             error.status === 404
                 ? 'El catálogo no está disponible en este momento. Intenta de nuevo.'
                 : error.message || 'No se pudo cargar el catálogo.',
             true
         );
+
         retry.hidden = false;
     } finally {
         loading = false;
@@ -101,6 +160,9 @@ async function loadGames() {
 function resetForm() {
     gameForm.reset();
     gameForm.elements.id.value = '';
+
+    showImageStatus('');
+
     document.getElementById('game-form-title').textContent = 'Nuevo juego';
     document.getElementById('save-game').textContent = 'Crear juego';
     document.getElementById('cancel-game').textContent = 'Limpiar formulario';
@@ -108,23 +170,41 @@ function resetForm() {
 
 function editGame(game) {
     gameForm.elements.id.value = game.id;
+
     gameForm.elements.titulo.value =
         game.titulo || game.title || game.nombre || '';
+
     gameForm.elements.descripcion.value =
         game.descripcion || game.description || '';
-    gameForm.elements.genero.value = game.genero || game.genre || '';
-    gameForm.elements.precio.value = game.precio ?? game.price ?? '';
+
+    gameForm.elements.genero.value =
+        game.genero || game.genre || '';
+
+    gameForm.elements.precio.value =
+        game.precio ?? game.price ?? '';
+
     gameForm.elements.desarrollador.value =
         game.desarrollador || game.developer || '';
+
     gameForm.elements.fecha_lanzamiento.value = (
         game.fecha_lanzamiento ||
         game.releaseDate ||
         ''
     ).slice(0, 10);
+
+    gameImageInput.value = '';
+    showImageStatus(
+        game.portadaUrl
+            ? 'Este juego ya tiene portada. Selecciona otra imagen si deseas reemplazarla.'
+            : ''
+    );
+
     document.getElementById('game-form-title').textContent =
         `Editar juego #${game.id}`;
+
     document.getElementById('save-game').textContent = 'Guardar cambios';
     document.getElementById('cancel-game').textContent = 'Cancelar edición';
+
     gameForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
     gameForm.elements.titulo.focus({ preventScroll: true });
 }
@@ -142,35 +222,97 @@ function gameData() {
 
 async function confirmAdmin() {
     await authService.validateAdmin();
+
     const session = authService.getSession();
-    if (!session)
+
+    if (!session) {
         throw new ApiError('La sesión expiró. Vuelve a iniciar sesión.', 401);
+    }
+
     return session.token;
 }
 
 function handleExpiredAdminSession(error) {
     if (error.status !== 401) return false;
+
     authService.clearSession();
     location.assign(`/login?next=${encodeURIComponent('/store')}`);
+
     return true;
 }
 
 async function saveGame(event) {
     event.preventDefault();
+
     const button = document.getElementById('save-game');
+
     if (button.disabled) return;
+
+    const selectedImage = gameImageInput.files[0];
+    const imageError = validateGameImage(selectedImage);
+
+    if (imageError) {
+        showImageStatus(imageError, true);
+        gameImageInput.focus();
+        return;
+    }
+
     button.disabled = true;
     showAdminMessage('Guardando juego...');
+
     try {
         const currentToken = await confirmAdmin();
         const id = gameForm.elements.id.value;
-        if (id) await gameService.update(id, gameData(), currentToken);
-        else await gameService.create(gameData(), currentToken);
-        showAdminMessage(id ? 'Juego actualizado.' : 'Juego creado.');
+
+        let result;
+
+        if (id) {
+            result = await gameService.update(id, gameData(), currentToken);
+        } else {
+            result = await gameService.create(gameData(), currentToken);
+        }
+
+        const gameId = id || result?.game?.id || result?.id;
+
+        let imageUploadFailed = false;
+
+        if (selectedImage) {
+            if (!gameId) {
+                imageUploadFailed = true;
+            } else {
+                showAdminMessage('Juego guardado. Subiendo portada...');
+
+                try {
+                    await fileService.uploadGameImage(
+                        gameId,
+                        selectedImage,
+                        currentToken
+                    );
+                } catch (error) {
+                    imageUploadFailed = true;
+                    console.error('Error al subir la portada:', error);
+                }
+            }
+        }
+
         resetForm();
         await loadGames();
+
+        if (imageUploadFailed) {
+            showAdminMessage(
+                'El juego se guardó, pero no se pudo subir la portada. Puedes intentarlo editando el juego.',
+                true
+            );
+        } else {
+            showAdminMessage(
+                id
+                    ? 'Juego actualizado correctamente.'
+                    : 'Juego creado correctamente.'
+            );
+        }
     } catch (error) {
         if (handleExpiredAdminSession(error)) return;
+
         showAdminMessage(
             error.message ||
                 'No se pudo guardar el juego. Tus datos siguen en el formulario.',
@@ -183,6 +325,7 @@ async function saveGame(event) {
 
 async function deleteGame(game) {
     const name = game.titulo || game.title || game.nombre || `#${game.id}`;
+
     if (
         !(await confirmAction({
             title: `¿Retirar ${name}?`,
@@ -191,16 +334,23 @@ async function deleteGame(game) {
             confirm: 'Retirar de la tienda',
             danger: true
         }))
-    )
+    ) {
         return;
+    }
+
     showAdminMessage(`Retirando ${name}…`);
+
     try {
         const currentToken = await confirmAdmin();
+
         await gameService.remove(game.id, currentToken);
+
         showAdminMessage('Juego retirado de la tienda.');
+
         await loadGames();
     } catch (error) {
         if (handleExpiredAdminSession(error)) return;
+
         showAdminMessage(
             error.message || 'No se pudo eliminar el juego.',
             true
@@ -210,26 +360,35 @@ async function deleteGame(game) {
 
 async function initialize() {
     setupNavigation();
+
     isAdmin = false;
     adminPanel.hidden = true;
+
     const catalogTask = loadGames();
+
     let accountTask;
+
     const session = authService.getSession();
+
     if (session) {
         try {
             const user = await authService.validateSession();
+
             setupNavigation(user);
+
             accountTask = refreshCommerce().catch((error) => {
                 if (error.status === 401) {
                     authService.clearSession();
                     setupNavigation(null);
-                } else
+                } else {
                     message(
                         document.getElementById('account-status'),
                         'No pudimos actualizar tu carrito. Se comprobará de nuevo al añadir un juego.',
                         true
                     );
+                }
             });
+
             if (user?.rol === 'admin') {
                 await authService.validateAdmin();
                 isAdmin = true;
@@ -237,28 +396,55 @@ async function initialize() {
             }
         } catch (error) {
             if (error.status === 401) authService.clearSession();
+
             setupNavigation(authService.getSession()?.user || null);
-            if (error.status !== 401)
+
+            if (error.status !== 401) {
                 message(
                     document.getElementById('account-status'),
                     'No pudimos actualizar tu cuenta. Al añadir un juego comprobaremos de nuevo tu carrito.',
                     true
                 );
+            }
         }
     }
+
     await catalogTask;
     await accountTask;
+
     if (isAdmin) renderGames();
 }
 
+gameImageInput.addEventListener('change', () => {
+    const file = gameImageInput.files[0];
+    const error = validateGameImage(file);
+
+    if (error) {
+        showImageStatus(error, true);
+        return;
+    }
+
+    showImageStatus(
+        file ? `Imagen seleccionada: ${file.name}` : ''
+    );
+});
+
 document.getElementById('retry-catalog').addEventListener('click', loadGames);
+
 document.getElementById('cancel-game').addEventListener('click', resetForm);
+
 gameForm.addEventListener('submit', saveGame);
+
 refresh.addEventListener('click', async () => {
     await loadGames();
-    if (authService.getSession()) refreshCommerce().catch(() => {});
+
+    if (authService.getSession()) {
+        refreshCommerce().catch(() => {});
+    }
 });
+
 search.addEventListener('input', renderGames);
+
 document
     .getElementById('clear-catalog-search')
     .addEventListener('click', () => {
@@ -266,7 +452,9 @@ document
         renderGames();
         search.focus();
     });
+
 window.addEventListener('pageshow', (event) => {
     if (event.persisted) initialize();
 });
+
 initialize();

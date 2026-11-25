@@ -169,9 +169,9 @@ CREATE TABLE biblioteca (
 -- FIN DE LOS SCRIPTS
 -- ============================================================
 
---2.0 ACORDE A LA ARQUITECTURA DE LOS MODELOS DEL COMPAÑERO SEBASTIAN. EJECUTAR EL PRIMER BLOQUE DE DE LA SECCION SCRIPTS PARA CREAR LAS TABLAS y la basedb.
---Esta segunda sección pertenece a la modificacion de las tablas y variables que se definen y que se
---alinean con el diagrama de la web desarrollado por el compañero Sebastian.
+-- 2.0 ACORDE A LA ARQUITECTURA DE LOS MODELOS DEL COMPAÑERO SEBASTIAN. EJECUTAR EL PRIMER BLOQUE DE DE LA SECCION SCRIPTS PARA CREAR LAS TABLAS y la basedb.
+-- Esta segunda sección pertenece a la modificacion de las tablas y variables que se definen y que se
+-- alinean con el diagrama de la web desarrollado por el compañero Sebastian.
 USE steamstore_db;
 
 -- 1. Eliminar tablas que el diseño nuevo no usa
@@ -185,7 +185,8 @@ DROP TABLE IF EXISTS categorias;
 ALTER TABLE juegos
     DROP COLUMN stock,
     DROP COLUMN imagen,
-    ADD COLUMN genero VARCHAR(50) NOT NULL AFTER descripcion;
+    ADD COLUMN genero VARCHAR(50) NOT NULL AFTER descripcion,
+    ADD COLUMN publicado TINYINT(1) NOT NULL DEFAULT 1;
 
 -- 3. DETALLE_COMPRA no tiene cantidad (juegos digitales)
 ALTER TABLE compra_detalle DROP COLUMN cantidad;
@@ -208,21 +209,56 @@ CREATE TABLE resenas (
         ON DELETE CASCADE
 );
 
--- 5. ARCHIVO (foto de perfil O imagen de juego)
+-- 5. ARCHIVO (fotos de perfil, imágenes de juegos y reseñas)
 CREATE TABLE archivos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT NULL,
+    autor_id INT NULL,
     juego_id INT NULL,
+    resena_id INT NULL,
+
     nombre_archivo VARCHAR(255) NOT NULL,
+
     tipo_archivo ENUM(
         'portada',
         'captura',
-        'perfil'
+        'perfil',
+        'resena'
     ) NOT NULL,
+
     mime_type VARCHAR(100),
     tamano INT NOT NULL,
     ruta VARCHAR(500) NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    INDEX idx_archivos_autor_id (autor_id),
+    INDEX idx_archivos_resena_id (resena_id),
+
+    FOREIGN KEY (usuario_id)
+        REFERENCES usuarios(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (autor_id)
+        REFERENCES usuarios(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (juego_id)
+        REFERENCES juegos(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (resena_id)
+        REFERENCES resenas(id)
+        ON DELETE CASCADE
+);
+
+-- 6. Tabla para almacenar los juegos del carrito
+CREATE TABLE carrito_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    juego_id INT NOT NULL,
+    fecha_agregado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    UNIQUE (usuario_id, juego_id),
 
     FOREIGN KEY (usuario_id)
         REFERENCES usuarios(id)
